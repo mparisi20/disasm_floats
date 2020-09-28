@@ -146,12 +146,13 @@ int main(int argc, char *argv[])
             float val;
             tryRead(fp, off, &val, sizeof(float), 1);
             val = befloat_to_cpu((const u8 *)&val);
-            printf("%.6f", val);
+            printf("%.8f", val);
             off += sizeof(float);
             if (j < iterations-1)
                 printf(", ");
         }
         putchar('\n');
     }
+    fclose(fp);
     return 0;
 }
