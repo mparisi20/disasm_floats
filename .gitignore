@@ -1,0 +1,5 @@
+*.exe
+disasm_floats
+*.o
+*.out
+*.txt
