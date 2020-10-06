@@ -46,13 +46,13 @@ static void tryRead(FILE *fp, long offset, void *ptr, size_t size, size_t nmemb)
     }
 }
 
-static u32 be32_to_cpu(const u8 *buf) {
+static u32 be32_to_cpu(const unsigned char *buf) {
     return (u32)buf[3] | (u32)buf[2] << 8 | (u32)buf[1] << 16 | (u32)buf[0] << 24;
 }
 
-static float befloat_to_cpu(const u8 *buf) {
+static float befloat_to_cpu(const unsigned char *buf) {
    float retVal;
-   char *retValBytePtr = (char *)&retVal;
+   unsigned char *retValBytePtr = (unsigned char *)&retVal;
 
    retValBytePtr[0] = buf[3];
    retValBytePtr[1] = buf[2];
@@ -70,13 +70,13 @@ static void fillSectionInfoTab(FILE *fp, SectionInfo *tab)
     u32 offset, addr, len;
     for (size_t i = 0; i < DOL_SECTIONS; i++) {
         tryRead(fp, OFFSETS + i*sizeof(u32), &offset, sizeof(u32), 1);        
-        tab[i].offset = be32_to_cpu((const u8 *)&offset);
+        tab[i].offset = be32_to_cpu((const unsigned char *)&offset);
         
         tryRead(fp, ADDRS + i*sizeof(u32), &addr, sizeof(u32), 1);
-        tab[i].addr = be32_to_cpu((const u8 *)&addr);
+        tab[i].addr = be32_to_cpu((const unsigned char *)&addr);
 
         tryRead(fp, LENS + i*sizeof(u32), &len, sizeof(u32), 1);
-        tab[i].len = be32_to_cpu((const u8 *)&len);
+        tab[i].len = be32_to_cpu((const unsigned char *)&len);
     }
 }
 
@@ -145,7 +145,7 @@ int main(int argc, char *argv[])
         for (size_t j = 0; j < iterations; j++) {
             float val;
             tryRead(fp, off, &val, sizeof(float), 1);
-            val = befloat_to_cpu((const u8 *)&val);
+            val = befloat_to_cpu((const unsigned char *)&val);
             printf("%.8f", val);
             off += sizeof(float);
             if (j < iterations-1)
